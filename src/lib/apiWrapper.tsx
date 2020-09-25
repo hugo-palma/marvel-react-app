@@ -5,8 +5,8 @@ import ComicsResponse  from '../models/comics/ComicsResponse'
 
 
 class ApiWrapper{
-    private publicAPIKey = '638a2367d8b8f60521d9016def3230ba'
-    private comicsRoute = axiosProperties.routes.comics
+    private publicAPIKey = axiosProperties.apiKey;
+    private comicsRoute = axiosProperties.routes.comics;
     private authKey = `?apikey=${this.publicAPIKey}`
 
     public async getComics(){
