@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import './index.css';
-import App from './App';
 import ComicsPage from './pages/comics'
 import * as serviceWorker from './serviceWorker';
+import { axiosProperties } from './properties'
+
+
+//startup configs
+axios.defaults.baseURL = axiosProperties.routes.base;
+
 
 ReactDOM.render(
   <React.StrictMode>
