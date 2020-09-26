@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import styled from 'styled-components'
+import tw from 'twin.macro'
+import path from 'path'
 
 import ApiWrapper from '../../lib/apiWrapper'
 import ComicsResponse from '../../models/comics/ComicsResponse'
-import { ComicImagesUrlCreator } from '../../lib/ImageUrl';
+import { ComicImagesUrlCreator } from '../../lib/ComicImageUrlCreator';
+import ComicCard from '../../components/layouts/Comics/ComicCard'
+
+import { placeholderMarvelImage } from '../../images'
+
+const placeholderMarvelImagePath = path.resolve(placeholderMarvelImage)
 
 const obtainData = async () => {
     const apiWrapper = new ApiWrapper();
@@ -10,24 +18,24 @@ const obtainData = async () => {
     return responseData
 }
 
-interface Props{
-
+const StyledDiv = styled.div`
+    ${tw`flex flex-col`}
+`
+interface Props{   
 }
 const ComicsPage: React.FC<Props> = props => {
     const [comicsResponse, setComicsResponse] = useState<ComicsResponse>()
     useEffect(() => {
         console.log(obtainData().then((response) => {setComicsResponse(response)}))
     }, [])
-return <div>
+return <StyledDiv>
             {comicsResponse?.data.results.map(comic => {
-                return <div key={comic.id}>
-                    <pre>
-                        {comic.title + JSON.stringify(comic.images)}
-                    </pre>
-                    <img src={comic.images.length > 0? ComicImagesUrlCreator.createComicImageUrl(comic.images[0].path, comic.images[0].extension): ''} alt={`imagen de comic ${comic.title}`}/>
-                </div>
+                return <ComicCard key={comic.id}
+                title={comic.title} 
+                imagePath={comic.images.length > 0? ComicImagesUrlCreator.createComicImageUrl(comic.images[0].path, comic.images[0].extension) : placeholderMarvelImagePath}
+                />
             })}
-        </div>
+        </StyledDiv>
 };
 
 

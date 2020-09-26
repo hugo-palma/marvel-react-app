@@ -1,0 +1,1 @@
+export { default as placeholderMarvelImage } from './marvel_portrait_uncanny.jpg'
