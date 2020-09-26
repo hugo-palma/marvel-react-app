@@ -1,5 +1,6 @@
+import IScrollable  from '../IScrollable'
 import Data from './Data'
-export default interface ComicsResponse {
+export default interface ComicsResponse extends IScrollable{
     code: number;
     status: string;
     copyright: string;
