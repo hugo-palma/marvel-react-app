@@ -1,5 +1,5 @@
 export const comicsProperties = {
-    defaultSize: 'portrait_fantastic',
+    defaultSize: 'portrait_xlarge',
     pathSuffix: '/',
     imageExtensionPrefix: '.'
 }
