@@ -16,7 +16,6 @@ const RowRenderer: React.FC<any> = (props) => {
   const width = window.innerWidth;
   
   const getMaxItemsAmountPerRow = (width: number) => {
-      console.log(`${width} ${ITEM_WIDTH}`)
     return Math.max(Math.floor(width / ITEM_WIDTH), 1);
   }
 

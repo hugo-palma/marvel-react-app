@@ -3,7 +3,7 @@ import {Result} from './Result'
 export default interface Data extends IData {
     offset: string;
     limit: string;
-    total: string;
+    total: number;
     count: string;
     results: Result[];
 }
