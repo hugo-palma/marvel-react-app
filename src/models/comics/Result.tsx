@@ -12,11 +12,12 @@ import { Variant } from "./Variant";
 import { Series } from "./Series";
 import { Url } from "./Url";
 import { TextObject } from "./TextObject";
+import IResult from "../IResults";
 
 
 
-export interface Result {
-    id: string;
+export interface Result extends IResult{
+    id: number;
     digitalId: string;
     title: string;
     issueNumber: string;
