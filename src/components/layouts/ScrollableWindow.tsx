@@ -23,14 +23,19 @@ const ScrollableWindow = (props: Props) => {
   const comicsResponse = useContext(ComicsContext);
   const [totalItemsAmount, setTotalItemsAmount] = useState(20);
   useEffect(() => {
-    console.log(`totalItemsAmount ${totalItemsAmount}`)
+    let newAmount = totalItemsAmount
     if(comicsResponse && comicsResponse.data)
-    setTotalItemsAmount(comicsResponse?.data?.results.length + 20)
+    {
+      newAmount = comicsResponse.data.results.length + 20
+      if(newAmount > comicsResponse.data.total){
+        newAmount = comicsResponse.data.total
+      }
+    }
+    setTotalItemsAmount(newAmount)
   }, [comicsResponse])
   const [hasNextPage, setHasNextPage] = useState(props.hasNextPage);
   //TODO: make rowCountUpdate when loading
   const getMaxItemsAmountPerRow = (width: number) => {
-    console.log(`${width} ${ITEM_WIDTH}`);
     return Math.max(Math.floor(width / ITEM_WIDTH), 1);
   };
   const rowCount = getRowsAmount(
