@@ -10,9 +10,18 @@ const StyledDiv = styled.div`
 const RowRenderer: React.FC<any> = (props) => {
   const comicsResponse = useContext(ComicsContext);
   const [index] = useState(props.index);
+  //TODO: LOAD FROM FILE
+  const ITEM_WIDTH = 296
+  //TODO: CHANGE width
+  const width = window.innerWidth;
+  
+  const getMaxItemsAmountPerRow = (width: number) => {
+      console.log(`${width} ${ITEM_WIDTH}`)
+    return Math.max(Math.floor(width / ITEM_WIDTH), 1);
+  }
 
     //TODO: change maxItemsPerRow to be configurable
-  const [maxItemsPerRow, setMaxItemsPerRow] = useState(4);
+  const [maxItemsPerRow, setMaxItemsPerRow] = useState(getMaxItemsAmountPerRow(width));
   const [comicsLength, setComicsLength] = useState(0);
 
   useEffect(() => {
@@ -32,14 +41,15 @@ const RowRenderer: React.FC<any> = (props) => {
   )
 
   return (
-    <StyledDiv>
+    <StyledDiv style={props.style}>
       {rowComicIds.map((comicIndex) => {
           return  <RowItem
+          key={comicIndex}
           title={comicsResponse && comicsResponse.data ? comicsResponse?.data?.results[comicIndex].title: ''}
           images={comicsResponse?.data?.results[comicIndex].images}
           id={comicsResponse?.data?.results[comicIndex].id}
           
-          classes={'flex'}
+          classes={{}}
           />
       })}
     </StyledDiv>
@@ -50,7 +60,6 @@ function generateIndexesForRow(
   maxItemsPerRow: number,
   itemsAmount: number
 ) {
-    console.log(`fila ${rowIndex}`)
   const result = [];
   const startIndex = rowIndex * maxItemsPerRow;
 
@@ -61,7 +70,7 @@ function generateIndexesForRow(
   ) {
     result.push(i);
   }
-  console.log(result)
   return result;
 }
+
 export default RowRenderer;

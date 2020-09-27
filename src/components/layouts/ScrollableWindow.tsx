@@ -1,52 +1,87 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { FixedSizeList as List } from "react-window";
-import { ComicsContext } from "../../pages/comics/comics";
+import InfiniteLoader from "react-window-infinite-loader";
+import {
+  ComicsContext,
+  TotalComicsAmountContext,
+} from "../../pages/comics/comics";
 import RowRenderer from "src/components/layouts/RowRenderer";
 
-const ITEM_WIDTH = 400;
-const ITEM_HEIGHT = 360;
+const ITEM_WIDTH = 296;
+const ITEM_HEIGHT = 421;
 
 interface Props {
-  itemsPerRow: number;
+  loadMoreItems: any;
+  hasNextPage: boolean;
 }
 
 const ScrollableWindow = (props: Props) => {
-  const width = 0.85 * window.innerWidth;
-  const rowCount = getRowsAmount(width, 20, false);
+  const infiniteLoaderRef: React.RefObject<any> = React.createRef();
+  const height = window.innerHeight;
+  const width = window.innerWidth;
+  //TODO: MAKE CONTEXT SWAPPABLE
   const comicsResponse = useContext(ComicsContext);
+  const [totalItemsAmount, setTotalItemsAmount] = useState(20);
   useEffect(() => {
-    console.log("useEffect en scrollable window");
-    if (comicsResponse) {
-      console.log(`window ${comicsResponse}`);
-    }
-  }, [comicsResponse]);
+    console.log(`totalItemsAmount ${totalItemsAmount}`)
+    if(comicsResponse && comicsResponse.data)
+    setTotalItemsAmount(comicsResponse?.data?.results.length + 20)
+  }, [comicsResponse])
+  const [hasNextPage, setHasNextPage] = useState(props.hasNextPage);
+  //TODO: make rowCountUpdate when loading
+  const getMaxItemsAmountPerRow = (width: number) => {
+    console.log(`${width} ${ITEM_WIDTH}`);
+    return Math.max(Math.floor(width / ITEM_WIDTH), 1);
+  };
+  const rowCount = getRowsAmount(
+    width,
+    totalItemsAmount,
+    false,
+    getMaxItemsAmountPerRow(width)
+  );
+  //const allItemsLoaded = generateIndexesForRow(index, maxItemsPerRow, movies.length).length > 0;
+  const isItemLoaded = (index: number) => !hasNextPage; //|| allItemsLoaded;
+
   const requiredParams = {
     comicsResponse: comicsResponse,
-    itemsPerRow: 5,
+    itemsPerRow: 7,
   };
 
   return (
-    <List
-      height={700}
-      width={1600}
-      itemSize={ITEM_HEIGHT}
-      className="flex justify-center"
+    <InfiniteLoader
+      ref={infiniteLoaderRef}
       itemCount={rowCount}
-      itemData={requiredParams}
+      loadMoreItems={props.loadMoreItems}
+      isItemLoaded={isItemLoaded}
+      threshold={1}
     >
-      {RowRenderer}
-    </List>
+      {({ onItemsRendered, ref }) => (
+        <section>
+          <List
+            height={height}
+            width={width}
+            ref={ref}
+            className="flex justify-center"
+            itemCount={rowCount}
+            itemSize={ITEM_HEIGHT}
+            itemData={requiredParams}
+            onItemsRendered={onItemsRendered}
+          >
+            {RowRenderer}
+          </List>
+        </section>
+      )}
+    </InfiniteLoader>
   );
 };
 
-function getMaxItemsAmountPerRow(width: number) {
-  return Math.max(Math.floor(width / ITEM_WIDTH), 1);
-}
-
-function getRowsAmount(width: number, itemsAmount: number, hasMore: boolean) {
-  const maxItemsPerRow = getMaxItemsAmountPerRow(width);
-
-  return Math.ceil(itemsAmount / maxItemsPerRow) + (hasMore ? 1 : 0);
+function getRowsAmount(
+  width: number,
+  itemsAmount: number,
+  hasNextPage: boolean,
+  itemsPerRow: number
+) {
+  return Math.ceil(itemsAmount / itemsPerRow) + (hasNextPage ? 1 : 0);
 }
 
 export default ScrollableWindow;

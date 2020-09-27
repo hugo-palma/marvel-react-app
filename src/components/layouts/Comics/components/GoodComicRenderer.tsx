@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import path from "path";
+
+
+import { placeholderMarvelImage } from "../../../../images/index";
 import ComicCard from "src/components/layouts/Comics/components/ComicCard";
 import IImage from "src/models/IImages";
 import { ComicImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
+const placeholderMarvelImagePath = path.resolve(placeholderMarvelImage);
 
 interface Props {
   id: number | undefined;
@@ -18,14 +23,8 @@ const RowItem = React.memo(function RowItem(props: Props) {
     <div className={props.classes} key={currentId}>
       <ComicCard
         title={currentTitle}
-        imagePath={ComicImagesUrlCreator.createComicImageUrl(
-          currentImages && currentImages.length > 0
-            ? currentImages[0].path
-            : "",
-          currentImages && currentImages.length > 0
-            ? currentImages[0].extension
-            : ""
-        )}
+        imagePath={currentImages && currentImages.length > 0 ? ComicImagesUrlCreator.createComicImageUrl(
+           currentImages[0].path, currentImages[0].extension) : placeholderMarvelImagePath}
         id={props.id}
         style={{}}
       />
