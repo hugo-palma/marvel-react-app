@@ -27,6 +27,7 @@ const RowRenderer: React.FC<any> = (props) => {
     if (
       comicsResponse &&
       comicsResponse.data &&
+      comicsResponse.data.results &&
       comicsResponse.data.results.length > 0
     ) {
         setComicsLength(comicsResponse.data.results.length)
@@ -44,9 +45,9 @@ const RowRenderer: React.FC<any> = (props) => {
       {rowComicIds.map((comicIndex) => {
           return  <RowItem
           key={comicIndex}
-          title={comicsResponse && comicsResponse.data ? comicsResponse?.data?.results[comicIndex].title: ''}
-          images={comicsResponse?.data?.results[comicIndex].images}
-          id={comicsResponse?.data?.results[comicIndex].id}
+          title={comicsResponse && comicsResponse.data && comicsResponse.data.results ? comicsResponse.data.results[comicIndex].title: ''}
+          images={comicsResponse && comicsResponse.data && comicsResponse.data.results ? comicsResponse.data.results[comicIndex].images: undefined}
+          id={comicsResponse && comicsResponse.data && comicsResponse.data.results ? comicsResponse.data.results[comicIndex].id : 0}
           
           classes={{}}
           />

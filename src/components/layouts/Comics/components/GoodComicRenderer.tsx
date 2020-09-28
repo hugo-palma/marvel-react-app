@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import path from "path";
 
 
-import { placeholderMarvelImage } from "../../../../images/index";
+import { placeholderMarvelImage } from "src/images/index";
 import ComicCard from "src/components/layouts/Comics/components/ComicCard";
 import IImage from "src/models/IImages";
 import { ComicImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
@@ -16,9 +16,14 @@ interface Props {
 }
 
 const RowItem = React.memo(function RowItem(props: Props) {
-  const [currentId] = useState(props.id);
-  const [currentTitle] = useState(props.title);
-  const [currentImages] = useState(props.images);
+  const [currentId, setCurrentId] = useState(props.id);
+  const [currentTitle, setCurrentTitle] = useState(props.title);
+  const [currentImages, setCurrentImages] = useState(props.images);
+  useEffect(() => {
+    setCurrentId(props.id)
+    setCurrentTitle(props.title)
+    setCurrentImages(props.images)
+  }, [props])
   return (
     <div className={props.classes} key={currentId}>
       <ComicCard
