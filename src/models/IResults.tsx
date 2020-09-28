@@ -1,8 +1,10 @@
-import IImage from "./IImages";
+import IImages from "./IImages";
 
 interface IResult{
     id:number,
-    title: string,
-    images: Array<IImage>
+    title?: string,
+    name?: string,
+    thumbnail?: IImages,
+    images?: Array<IImages>
 }
 export default IResult;

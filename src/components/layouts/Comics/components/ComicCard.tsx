@@ -15,7 +15,7 @@ const StyledImage = styled.img`
 const StyledTitle = styled.h3``;
 
 interface Props {
-  id: number | undefined;
+  id: string | undefined;
   imagePath: string | undefined;
   title: string | undefined;
   style: any;

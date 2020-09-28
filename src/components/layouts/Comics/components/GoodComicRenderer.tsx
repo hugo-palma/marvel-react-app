@@ -9,7 +9,7 @@ import { ComicImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
 const placeholderMarvelImagePath = path.resolve(placeholderMarvelImage);
 
 interface Props {
-  id: number | undefined;
+  id: string | undefined;
   title: string | undefined;
   images: Array<IImage> | undefined;
   classes: any;
