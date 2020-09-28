@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom'
+
 import tw from "twin.macro";
 import styled from "styled-components";
 const StyledDiv = styled.div`
@@ -24,6 +26,8 @@ interface Props {
 const ComicCard: React.FC<Props> = (props) => {
   const [imagePath] = useState(props.imagePath);
   const [title] = useState(props.title);
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <StyledDiv style={props.style}>
       <StyledImage src={imagePath} alt={`imagen de comic ${title}`} />

@@ -15,5 +15,6 @@ export const axiosProperties = {
         base: 'http://gateway.marvel.com/v1/public/',
         comics: '/comics',
         characters: '/characters',
+        stories: '/stories'
     }
 }

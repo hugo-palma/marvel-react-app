@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import comics from "src/pages/comics";
 import characters from "src/pages/characters"
+import stories from "src/pages/stories"
 import Layout from "src/components/layouts//Layout";
 import Header from "src/components/layouts/components/Header";
 interface Props {}
@@ -15,6 +16,7 @@ const AppRouter: React.FC<Props> = (props) => {
         <Switch>
           <Route path="/comics" component={comics} />
           <Route path="/characters" component={characters}/>
+          <Route path='/stories' component={stories}/>
         </Switch> 
       </Router>
     </Layout>

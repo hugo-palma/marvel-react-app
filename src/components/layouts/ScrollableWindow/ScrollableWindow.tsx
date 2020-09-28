@@ -1,10 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
-import {
-  ComicsContext,
-  TotalComicsAmountContext,
-} from "src/pages/comics/comics";
 import RowRenderer from "src/components/layouts/ScrollableWindow/RowRenderer";
 import IScrollable from "src/models/IScrollable";
 
