@@ -4,7 +4,7 @@ import tw from "twin.macro";
 
 import ApiWrapper from "src/lib/apiWrapper";
 import ComicsResponse from "src/models/comics/ComicsResponse";
-import ScrollableWindow from "src/components/layouts/ScrollableWindow";
+import ScrollableWindow from "src/components/layouts/ScrollableWindow/ScrollableWindow";
 import IScrollable from "src/models/IScrollable";
 
 const StyledDiv = styled.div`

@@ -4,8 +4,8 @@ import InfiniteLoader from "react-window-infinite-loader";
 import {
   ComicsContext,
   TotalComicsAmountContext,
-} from "../../pages/comics/comics";
-import RowRenderer from "src/components/layouts/RowRenderer";
+} from "src/pages/comics/comics";
+import RowRenderer from "src/components/layouts/ScrollableWindow/RowRenderer";
 
 const ITEM_WIDTH = 296;
 const ITEM_HEIGHT = 421;
@@ -18,7 +18,7 @@ interface Props {
 const ScrollableWindow = (props: Props) => {
   const infiniteLoaderRef: React.RefObject<any> = React.createRef();
   const height = window.innerHeight;
-  const width = window.innerWidth;
+  const width = window.innerWidth -24;
   //TODO: MAKE CONTEXT SWAPPABLE
   const comicsResponse = useContext(ComicsContext);
   const [totalItemsAmount, setTotalItemsAmount] = useState(20);

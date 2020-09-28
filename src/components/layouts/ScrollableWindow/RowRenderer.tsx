@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from 'styled-components'
 
 import { ComicsContext } from "src/pages/comics/comics";
-import RowItem from "./Comics/components/GoodComicRenderer";
+import RowItem from "src/components/layouts/Comics/components/GoodComicRenderer";
 
 const StyledDiv = styled.div`
     display: flex !important
