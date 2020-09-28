@@ -4,7 +4,10 @@ import makeAnimated from "react-select/animated";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-interface Props {}
+interface Props {
+  setFilterOption: React.Dispatch<React.SetStateAction<string>>,
+  setFilterValue: React.Dispatch<React.SetStateAction<string>>
+}
 const Container = styled.div`
   ${tw`flex flex-row  ml-16`};
 `;
@@ -22,16 +25,17 @@ const ComicsFilterOptions = [
     { value: 'none', label: 'None'}
 ]
 
-const ComicsFilterControl: React.FC<Props> = () => {
+const ComicsFilterControl: React.FC<Props> = (props) => {
     
-    const [comicFilter, setComicFilter] = useState('')
-    const handleChange = (value: ValueType<ComicFilterOption>, actionMeta: ActionMeta<ComicFilterOption>) => {
+    const setFilterOption = props.setFilterOption
+    const setFilterValue = props.setFilterValue
+    const handleOptionChange = (value: ValueType<ComicFilterOption>, actionMeta: ActionMeta<ComicFilterOption>) => {
         let selectedOption = value as ComicFilterOption
-        setComicFilter(selectedOption.value)
+        setFilterOption(selectedOption.value)
     }
-    useEffect(() => {
-        console.log(comicFilter)
-    }, [comicFilter])
+    const handleValueChange = (event: any) => {
+      setFilterValue(event.target.value)
+    }
     function customTheme(theme: any) {
         return {
             ...theme,
@@ -45,10 +49,10 @@ const ComicsFilterControl: React.FC<Props> = () => {
   return (
     <Container className="flex flex-row">
       <StyledDiv>
-        <Select placeholder='Filter comics' onChange={handleChange} autoFocus theme={customTheme} options={ComicsFilterOptions}/>
+        <Select placeholder='Filter comics' onChange={handleOptionChange} autoFocus theme={customTheme} options={ComicsFilterOptions}/>
       </StyledDiv>
       <StyledInputDiv>
-        <input />
+        <input onChange={handleValueChange}/>
       </StyledInputDiv>
     </Container>
   );
