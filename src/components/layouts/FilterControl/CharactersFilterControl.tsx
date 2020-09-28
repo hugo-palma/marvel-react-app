@@ -16,20 +16,20 @@ const StyledDiv = styled.div`
 const StyledInputDiv = styled.div`
   ${tw`inline items-start w-64 ml-12`};
 `;
-type ComicFilterOption = {label: string, value: string}
-const ComicsFilterOptions = [
-    { value: 'format', label: 'Filter by format'},
-    { value: 'title', label: 'Filter by title'},
-    { value: 'issue', label: 'Filter by issue number'},
+type CharactersFilterOptionType = {label: string, value: string}
+const CharactersFilterOptions = [
+    { value: 'name', label: 'Filter by name'},
+    { value: 'comics', label: 'Filter by comics'},
+    { value: 'stories', label: 'Filter by stories'},
     { value: 'none', label: 'None'}
 ]
 
-const ComicsFilterControl: React.FC<Props> = (props) => {
+const CharactersFilterControl: React.FC<Props> = (props) => {
     
     const setFilterOption = props.setFilterOption
     const setFilterValue = props.setFilterValue
-    const handleOptionChange = (value: ValueType<ComicFilterOption>, actionMeta: ActionMeta<ComicFilterOption>) => {
-        let selectedOption = value as ComicFilterOption
+    const handleOptionChange = (value: ValueType<CharactersFilterOptionType>, actionMeta: ActionMeta<CharactersFilterOptionType>) => {
+        let selectedOption = value as CharactersFilterOptionType
         setFilterOption(selectedOption.value)
     }
     const handleValueChange = (event: any) => {
@@ -48,7 +48,7 @@ const ComicsFilterControl: React.FC<Props> = (props) => {
   return (
     <Container className="flex flex-row">
       <StyledDiv>
-        <Select placeholder='Filter comics' onChange={handleOptionChange} autoFocus theme={customTheme} options={ComicsFilterOptions}/>
+        <Select placeholder='Filter characters' onChange={handleOptionChange} autoFocus theme={customTheme} options={CharactersFilterOptions}/>
       </StyledDiv>
       <StyledInputDiv>
         <input onChange={handleValueChange}/>
@@ -57,4 +57,4 @@ const ComicsFilterControl: React.FC<Props> = (props) => {
   );
 };
 
-export default ComicsFilterControl;
+export default CharactersFilterControl;

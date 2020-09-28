@@ -4,7 +4,7 @@ import { axiosProperties } from '../properties'
 import ComicsResponse  from '../models/comics/ComicsResponse'
 
 
-class ApiWrapper{
+class ComicsApiWrapper{
     private publicAPIKey = axiosProperties.apiKey;
     private comicsRoute = axiosProperties.routes.comics;
     private skipParameter = axiosProperties.skipParameter;
@@ -72,4 +72,4 @@ class ApiWrapper{
     }
 }
 
-export default ApiWrapper
+export default ComicsApiWrapper
