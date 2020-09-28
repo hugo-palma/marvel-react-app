@@ -6,6 +6,7 @@ import ApiWrapper from "src/lib/apiWrapper";
 import ComicsResponse from "src/models/comics/ComicsResponse";
 import ScrollableWindow from "src/components/layouts/ScrollableWindow/ScrollableWindow";
 import IScrollable from "src/models/IScrollable";
+import ComicsFilterControl from "src/components/layouts/FilterControl/ComicsFilterControl";
 
 const StyledDiv = styled.div`
   ${tw`flex flex-col`}
@@ -56,6 +57,7 @@ const ComicsPage: React.FC<Props> = (props) => {
   };
   return (
     <ComicsContext.Provider value={comicsResponse}>
+      <ComicsFilterControl/>
       <StyledDiv>
         <ScrollableWindow hasNextPage loadMoreItems={loadNextPage} />
       </StyledDiv>
