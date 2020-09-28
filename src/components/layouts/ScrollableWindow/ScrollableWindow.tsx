@@ -23,8 +23,9 @@ const ScrollableWindow = (props: Props) => {
   const comicsResponse = useContext(ComicsContext);
   const [totalItemsAmount, setTotalItemsAmount] = useState(20);
   useEffect(() => {
+    console.log(comicsResponse)
     let newAmount = totalItemsAmount
-    if(comicsResponse && comicsResponse.data)
+    if(comicsResponse && comicsResponse.data && comicsResponse.data.results)
     {
       newAmount = comicsResponse.data.results.length + 20
       if(newAmount > comicsResponse.data.total){

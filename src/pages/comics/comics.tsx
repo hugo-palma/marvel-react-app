@@ -7,6 +7,7 @@ import ComicsResponse from "src/models/comics/ComicsResponse";
 import ScrollableWindow from "src/components/layouts/ScrollableWindow/ScrollableWindow";
 import IScrollable from "src/models/IScrollable";
 import ComicsFilterControl from "src/components/layouts/FilterControl/ComicsFilterControl";
+import Data from "src/models/comics/Data";
 
 const StyledDiv = styled.div`
   ${tw`flex flex-col`}
@@ -18,18 +19,21 @@ const ComicsPage: React.FC<Props> = (props) => {
   //states needed for infinite loading
   //TODO: OBTAIN 20 TO CONFIG FILE
   const [hasNextPage, setHasNextPage] = useState(true);
-  let comicAmount = 0;
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const [comicsResponse, setComicsResponse] = useState<ComicsResponse>();
   const [filterOption, setFilterOption] = useState("");
   const [filterValue, setFilterValue] = useState("");
+  const [resetPage, setResetPage] = useState(false);
   const apiWrapper = new ApiWrapper();
 
   useEffect(() => {
     console.log(`cambios en filtros ${filterOption}, ${filterValue}`)
     handleFilter(filterOption, filterValue)
   }, [filterOption, filterValue]);
-
+  useEffect(() => {
+    loadNextPage()
+    setResetPage(false)
+  }, [resetPage])
   const handleApiCall = (filterOption: string, filterValue:string) => {
     switch(filterOption){
       case '' || 'none':
@@ -49,20 +53,17 @@ const ComicsPage: React.FC<Props> = (props) => {
       return;
     }
     setIsNextPageLoading(true);
-    console.log(`comicAmount ${comicAmount}`)
     const chosenApiCall = handleApiCall(filterOption, filterValue)
-    console.log(chosenApiCall.name)
-    if (comicAmount === 0) {
+    if (!comicsResponse || (comicsResponse.data.results === undefined)){
       chosenApiCall(filterValue).then((response) => {
         if (response && setComicsResponse) {
           setComicsResponse(response);
-          comicAmount = response.data.results.length
         } else {
-          console.log("revisar setComicsResponse | undefined");
+          console.log("check setComicsResponse | undefined");
         }
         setIsNextPageLoading(false);
       });
-    } else if(comicAmount > 0 && comicsResponse) {
+    } else if(comicsResponse && comicsResponse.data && comicsResponse.data.results.length > 0) {
       chosenApiCall(filterValue, comicsResponse.data.results.length).then((response) => {
         if (response && comicsResponse && setComicsResponse) {
           const newResults = response.data.results;
@@ -74,12 +75,24 @@ const ComicsPage: React.FC<Props> = (props) => {
       });
      
     }
+    else{
+      console.log('check else in loading more')
+      setIsNextPageLoading(false)
+    }
   };
   const handleFilter = (filterOption: string, filterValue: string) => {
-    if (filterValue.length > 0) {
-      comicAmount = 0
+    console.log(`handleFilter?${filterValue.length}, ${filterOption}`)
+    if (filterValue.length > 0 && filterOption!= '') {
+      setComicsResponse({
+        attributionHTML:'',
+        attributionText:'',
+        code: 0,
+        copyright:'',
+        data: {} as Data,
+        etag: '',
+        status:''})
       //TODO: Improve string comparison
-      loadNextPage();
+      setResetPage(true);
     }
   };
   return (
