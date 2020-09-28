@@ -1,0 +1,8 @@
+<svg>
+  <line 
+    x1="40" x2="260" 
+    y1="100" y2="100" 
+    stroke-width="20" 
+    stroke-linecap="round" 
+    stroke-dasharray=".001, 30" />
+</svg>
