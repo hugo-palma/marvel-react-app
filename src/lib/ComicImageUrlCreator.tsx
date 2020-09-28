@@ -1,5 +1,5 @@
 import { comicsProperties } from "../properties";
-export class ComicImagesUrlCreator {
+export class ImagesUrlCreator {
   static defaultSize: string = comicsProperties.defaultSize;
   static pathSuffix: string = comicsProperties.pathSuffix;
   static imageExtensionPrefix: string = comicsProperties.imageExtensionPrefix;

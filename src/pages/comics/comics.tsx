@@ -13,7 +13,6 @@ const StyledDiv = styled.div`
   ${tw`flex flex-col`}
 `;
 export const ComicsContext = React.createContext({} as IScrollable | undefined);
-export const TotalComicsAmountContext = React.createContext(0);
 interface Props {}
 const ComicsPage: React.FC<Props> = (props) => {
   //states needed for infinite loading
@@ -81,7 +80,7 @@ const ComicsPage: React.FC<Props> = (props) => {
   };
   const handleFilter = (filterOption: string, filterValue: string) => {
     console.log(`handleFilter?${filterValue.length}, ${filterOption}`)
-    if (filterValue.length > 0 && filterOption!= '') {
+    if (filterValue.length > 0 && filterOption !== '') {
       setComicsResponse({
         attributionHTML:'',
         attributionText:'',
@@ -90,7 +89,6 @@ const ComicsPage: React.FC<Props> = (props) => {
         data: {} as Data,
         etag: '',
         status:''})
-      //TODO: Improve string comparison
       setResetPage(true);
     }
   };
