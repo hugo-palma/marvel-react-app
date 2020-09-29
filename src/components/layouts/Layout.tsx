@@ -9,7 +9,7 @@ const LayoutWrapper = styled.div`
 `;
 
 const MainContent = styled.main`
-  ${tw`flex flex-col w-full`};
+  ${tw`flex flex-col w-full font-default`};
   flex: 1 0 auto;
   align-self: center;
 `;

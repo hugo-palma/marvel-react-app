@@ -2,10 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from 'styled-components'
 
 import { ScrollableContext } from "src/components/layouts/ScrollableWindow/ScrollableWindow";
-import RowItem from "src/components/layouts/Comics/components/GoodComicRenderer";
-import IImages from 'src/models/IImages'
-import IScrollable from "src/models/IScrollable";
-import IResult from "src/models/IResults";
+import RowItem from "src/components/layouts/Comics/components/RowItem";
 
 const StyledDiv = styled.div`
     display: flex !important
@@ -48,46 +45,13 @@ const RowRenderer: React.FC<any> = (props) => {
       {rowComicIds.map((comicIndex) => {
           return  <RowItem
           key={comicIndex}
-          title={comicsResponse && comicsResponse.data && comicsResponse.data.results ? getTitle(comicsResponse.data.results[comicIndex]) : ''}
-          images={comicsResponse && comicsResponse.data && comicsResponse.data.results ? getImages(comicsResponse.data.results[comicIndex]) : undefined}
-          id={comicsResponse && comicsResponse.data && comicsResponse.data.results ? getId(comicsResponse.data.results[comicIndex]) : '0'}
-          
+          itemInfo={comicsResponse && comicsResponse.data && comicsResponse.data.results ? comicsResponse.data.results[comicIndex] : undefined}    
           classes={{}}
           />
       })}
     </StyledDiv>
   );
 };
-function getTitle(item: IResult | undefined) {
-  if(item && item.title){
-    return item.title
-  }
-  else if(item && item.name){
-    return item.name
-  }
-  else{
-    return ''
-  }
-} 
-function getImages(item: IResult| undefined) {
-  if(item && item.images)
-  {
-    return item.images
-  }
-  else if(item && item.thumbnail){
-    return [item.thumbnail]
-  }
-  else return
-}
-function getId(item: IResult | undefined)
-{
-  if(item && item.id){
-    return `${item.id}`
-  }
-  else{
-    return ''
-  }
-}
 function generateIndexesForRow(
   rowIndex: number,
   maxItemsPerRow: number,

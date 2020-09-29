@@ -1,5 +1,6 @@
 export const comicsProperties = {
     defaultSize: 'portrait_xlarge',
+    modalSize: 'portrait_uncanny',
     pathSuffix: '/',
     imageExtensionPrefix: '.'
 }

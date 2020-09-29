@@ -247,24 +247,7 @@ module.exports = {
       default: '1',
     },
     fontFamily: {
-      header: ['Marvel Regular'],
-      sans: [
-        'system-ui',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        '"Noto Sans"',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ],
-      serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-      mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
+      default: ['Marvel Regular'],
     },
     fontSize: {
       xs: '0.75rem',
@@ -294,6 +277,7 @@ module.exports = {
       ...theme('spacing'),
       full: '100%',
       screen: '100vh',
+      'modal-image': '450'
     }),
     inset: {
       '0': '0',
@@ -444,6 +428,7 @@ module.exports = {
       '9/12': '75%',
       '10/12': '83.333333%',
       '11/12': '91.666667%',
+      'modal-image': '300px',
       full: '100%',
       screen: '100vw',
     }),

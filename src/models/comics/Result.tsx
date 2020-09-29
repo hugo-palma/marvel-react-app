@@ -16,7 +16,7 @@ import IResult from "../IResults";
 
 
 
-export interface Result extends IResult{
+export default interface Result extends IResult{
     id: number;
     digitalId: string;
     title: string;

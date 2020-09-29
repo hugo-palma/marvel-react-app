@@ -28,7 +28,7 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledNavigationLink = styled(NavLink)`
-  ${tw`font-header  mx-10 
+  ${tw`font-default  mx-10 
   `};
   min-height: 30px;
   &&& {
