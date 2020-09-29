@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 
-import ComicModal from 'src/components/layouts/Comics/components/ComicModal'
+import StoryModal from 'src/components/layouts/Stories/components/StoryModal'
 import IResult from "src/models/IResults";
 
 const StyledDiv = styled.div`
@@ -35,7 +35,7 @@ const StoryCard: React.FC<Props> = (props) => {
       <StyledTile>Story</StyledTile>
         <StyledStoryName>{getTitle(itemInfo)}</StyledStoryName>
       </StyledDiv>
-      <ComicModal itemInfo={itemInfo} isOpen={isModalOpen} onClose={closeModal}/>
+      <StoryModal itemInfo={itemInfo} isOpen={isModalOpen} onClose={closeModal}/>
     </>
   );
 };

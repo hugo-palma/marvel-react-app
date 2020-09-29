@@ -5,7 +5,7 @@ import path from "path";
 import { CSSProperties } from "styled-components";
 import ReactDom from "react-dom";
 
-import Result from "src/models/comics/Result";
+import Result from "src/models/stories/Result";
 import IResult from "src/models/IResults";
 import { ImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
 import { placeholderMarvelImage } from "src/images/index";
@@ -64,16 +64,16 @@ const StyledDescription = styled.h3`
 `;
 
 const portalDiv = document.getElementById("portal");
-const ComicModal: React.FC<Props> = (props) => {
+const StoryModal: React.FC<Props> = (props) => {
   const [isOpen, setIsOpen] = useState(props.isOpen);
   const [itemInfo, setItemInfo] = useState(props.itemInfo);
-  let comicInfo = { ...itemInfo } as Result;
+  const [StoryInfo, setStoryInfo] = useState({ ...itemInfo } as Result);
   useEffect(() => {
     setIsOpen(props.isOpen);
   }, [props.isOpen]);
   useEffect(() => {
     setItemInfo(itemInfo);
-    comicInfo = { ...itemInfo } as Result;
+    setStoryInfo({ ...itemInfo } as Result);
   }, [itemInfo]);
   if (!isOpen) return null;
   return portalDiv
@@ -82,26 +82,37 @@ const ComicModal: React.FC<Props> = (props) => {
           <div style={OVERLAY_STYLES} onClick={props.onClose} />
           <StyledModal style={MODAL_STYLES}>
             <StyledTitleContainer>
-              <StyledTitle>{getTitle(comicInfo)}</StyledTitle>
+              <StyledTitle>{getTitle(StoryInfo)}</StyledTitle>
             </StyledTitleContainer>
             <ContentContainer>
-              <StyledModalImage
-                src={getModalImagePath(comicInfo)}
-                alt={`${getTitle(comicInfo)}`}
-              />
               <DetailsContainer>
-                <StyledDescriptionLabel>Description</StyledDescriptionLabel>
+                <StyledDescriptionLabel>Creators</StyledDescriptionLabel>
                 <StyledDescriptionContainer>
-                  <StyledDescription>{comicInfo.description}</StyledDescription>
+                  <StyledDescription>{StoryInfo.creators.items?.map((creator) => creator.name).toString()}</StyledDescription>
                 </StyledDescriptionContainer>
-                <StyledDescriptionLabel>Characters</StyledDescriptionLabel>
+                <StyledDescriptionLabel>Series</StyledDescriptionLabel>
                 <StyledDescriptionContainer>
-                  <StyledDescription>{comicInfo.characters.items?.map((character) => character.name).toString()}</StyledDescription>
+                  <StyledDescription>{StoryInfo.series.items?.map((item) => item.name).toString()}</StyledDescription>
                 </StyledDescriptionContainer>
-                <StyledDescriptionLabel>Stories</StyledDescriptionLabel>
+                <StyledDescriptionLabel>Events</StyledDescriptionLabel>
                 <StyledDescriptionContainer>
-                  <StyledDescription>{comicInfo.stories.items?.map((story) => story.name).toString()}</StyledDescription>
+                  <StyledDescription>{StoryInfo.events.items?.map((event) => event.name).toString()}</StyledDescription>
                 </StyledDescriptionContainer>
+              </DetailsContainer>
+              <DetailsContainer>                
+                
+                  <StyledDescriptionLabel>Description</StyledDescriptionLabel>
+                  <StyledDescriptionContainer>
+                    <StyledDescription>{StoryInfo.description}</StyledDescription>
+                  </StyledDescriptionContainer>
+                  <StyledDescriptionLabel>Characters</StyledDescriptionLabel>
+                  <StyledDescriptionContainer>
+                    <StyledDescription>{StoryInfo.characters.items?.map((character) => character.name).toString()}</StyledDescription>
+                  </StyledDescriptionContainer>
+                  <StyledDescriptionLabel>Comics</StyledDescriptionLabel>
+                  <StyledDescriptionContainer>
+                    <StyledDescription>{StoryInfo.comics.items?.map((comic) => comic.name).toString()}</StyledDescription>
+                  </StyledDescriptionContainer>
               </DetailsContainer>
             </ContentContainer>
           </StyledModal>
@@ -110,14 +121,6 @@ const ComicModal: React.FC<Props> = (props) => {
       )
     : null;
 };
-
-function getId(item: IResult | undefined) {
-  if (item && item.id) {
-    return `${item.id}`;
-  } else {
-    return "";
-  }
-}
 function getTitle(item: IResult | undefined) {
   if (item && item.title) {
     return item.title;
@@ -146,4 +149,4 @@ function getModalImagePath(item: IResult | undefined) {
     return placeholderMarvelImagePath;
   }
 }
-export default ComicModal;
+export default StoryModal;
