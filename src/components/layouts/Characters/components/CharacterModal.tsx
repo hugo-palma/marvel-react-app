@@ -5,7 +5,7 @@ import path from "path";
 import { CSSProperties } from "styled-components";
 import ReactDom from "react-dom";
 
-import Result from "src/models/comics/Result";
+import Result from "src/models/characters/Result";
 import IResult from "src/models/IResults";
 import { ImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
 import { placeholderMarvelImage } from "src/images/index";
@@ -64,43 +64,46 @@ const StyledDescription = styled.h3`
 `;
 
 const portalDiv = document.getElementById("portal");
-const ComicInfoModal: React.FC<Props> = (props) => {
+const CharacterInfoModal: React.FC<Props> = (props) => {
   const [isOpen, setIsOpen] = useState(props.isOpen);
+  //generic itemInfo
   const [itemInfo, setItemInfo] = useState(props.itemInfo);
-  let comicInfo = { ...itemInfo } as Result;
+  //spreading info into proper character type
+  const [characterInfo, setCharacterInfo] = useState({ ...itemInfo } as Result);
   useEffect(() => {
     setIsOpen(props.isOpen);
   }, [props.isOpen]);
   useEffect(() => {
     setItemInfo(itemInfo);
-    comicInfo = { ...itemInfo } as Result;
+    setCharacterInfo({ ...itemInfo } as Result);
   }, [itemInfo]);
   if (!isOpen) return null;
+  console.log(characterInfo)
   return portalDiv
     ? ReactDom.createPortal(
         <>
           <div style={OVERLAY_STYLES} onClick={props.onClose} />
           <StyledModal style={MODAL_STYLES}>
             <StyledTitleContainer>
-              <StyledTitle>{getTitle(comicInfo)}</StyledTitle>
+              <StyledTitle>{getTitle(characterInfo)}</StyledTitle>
             </StyledTitleContainer>
             <ContentContainer>
               <StyledModalImage
-                src={getModalImagePath(comicInfo)}
-                alt={`${getTitle(comicInfo)}`}
+                src={getModalImagePath(characterInfo)}
+                alt={`${getTitle(characterInfo)}`}
               />
               <DetailsContainer>
                 <StyledDescriptionLabel>Description</StyledDescriptionLabel>
                 <StyledDescriptionContainer>
-                  <StyledDescription>{comicInfo.description}</StyledDescription>
+                  <StyledDescription>{characterInfo.description}</StyledDescription>
                 </StyledDescriptionContainer>
-                <StyledDescriptionLabel>Characters</StyledDescriptionLabel>
+                <StyledDescriptionLabel>Comics</StyledDescriptionLabel>
                 <StyledDescriptionContainer>
-                  <StyledDescription>{comicInfo.characters.items?.map((character) => character.name).toString()}</StyledDescription>
+                  <StyledDescription>{characterInfo.comics.items?.map((comic) => comic.name).toString()}</StyledDescription>
                 </StyledDescriptionContainer>
                 <StyledDescriptionLabel>Stories</StyledDescriptionLabel>
                 <StyledDescriptionContainer>
-                  <StyledDescription>{comicInfo.stories.items?.map((story) => story.name).toString()}</StyledDescription>
+                  <StyledDescription>{characterInfo.stories.items?.map((story) => story.name).toString()}</StyledDescription>
                 </StyledDescriptionContainer>
               </DetailsContainer>
             </ContentContainer>
@@ -111,21 +114,8 @@ const ComicInfoModal: React.FC<Props> = (props) => {
     : null;
 };
 
-function getId(item: IResult | undefined) {
-  if (item && item.id) {
-    return `${item.id}`;
-  } else {
-    return "";
-  }
-}
 function getTitle(item: IResult | undefined) {
-  if (item && item.title) {
-    return item.title;
-  } else if (item && item.name) {
-    return item.name;
-  } else {
-    return "";
-  }
+  return item && item.name ? item.name : ''
 }
 function getImages(item: IResult | undefined) {
   if (item && item.images) {
@@ -146,4 +136,4 @@ function getModalImagePath(item: IResult | undefined) {
     return placeholderMarvelImagePath;
   }
 }
-export default ComicInfoModal;
+export default CharacterInfoModal;

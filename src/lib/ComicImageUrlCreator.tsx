@@ -4,7 +4,7 @@ export class ImagesUrlCreator {
   static modalSize: string = comicsProperties.modalSize;
   static pathSuffix: string = comicsProperties.pathSuffix;
   static imageExtensionPrefix: string = comicsProperties.imageExtensionPrefix;
-  public static createComicImageUrl(path?: string, imageExtension?: string) {
+  public static createItemImageUrl(path?: string, imageExtension?: string) {
     return (
       path +
       this.pathSuffix +

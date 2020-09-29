@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from 'styled-components'
 
 import { ScrollableContext } from "src/components/layouts/ScrollableWindow/ScrollableWindow";
-import RowItem from "src/components/layouts/Comics/components/RowItem";
+import RowItem from "src/components/layouts/RowItem";
 
 const StyledDiv = styled.div`
     display: flex !important

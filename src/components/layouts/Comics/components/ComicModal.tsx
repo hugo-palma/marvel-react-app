@@ -67,13 +67,14 @@ const portalDiv = document.getElementById("portal");
 const ComicModal: React.FC<Props> = (props) => {
   const [isOpen, setIsOpen] = useState(props.isOpen);
   const [itemInfo, setItemInfo] = useState(props.itemInfo);
-  let comicInfo = { ...itemInfo } as Result;
+  //spreading info into proper comic type
+  const [comicInfo, setComicInfo] = useState({ ...itemInfo } as Result);
   useEffect(() => {
     setIsOpen(props.isOpen);
   }, [props.isOpen]);
   useEffect(() => {
     setItemInfo(itemInfo);
-    comicInfo = { ...itemInfo } as Result;
+    setComicInfo({ ...itemInfo } as Result);
   }, [itemInfo]);
   if (!isOpen) return null;
   return portalDiv
@@ -111,13 +112,6 @@ const ComicModal: React.FC<Props> = (props) => {
     : null;
 };
 
-function getId(item: IResult | undefined) {
-  if (item && item.id) {
-    return `${item.id}`;
-  } else {
-    return "";
-  }
-}
 function getTitle(item: IResult | undefined) {
   if (item && item.title) {
     return item.title;
