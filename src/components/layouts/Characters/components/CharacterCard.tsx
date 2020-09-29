@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import path from "path";
 
-import ComicModal from 'src/components/layouts/Comics/components/ComicModal'
+import CharacterModal from 'src/components/layouts/Characters/components/CharacterModal'
 import IResult from "src/models/IResults";
 import { ImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
 import { placeholderMarvelImage } from "src/images/index";
@@ -25,7 +25,7 @@ interface Props {
   style: any;
 }
 
-const ComicCard: React.FC<Props> = (props) => {
+const CharacterCard: React.FC<Props> = (props) => {
   const [itemInfo] = useState(props.result);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
@@ -37,10 +37,10 @@ const ComicCard: React.FC<Props> = (props) => {
   return (
     <>
       <StyledDiv onClick={openModal} style={props.style}>
-        <StyledImage src={getImagePath(itemInfo)} alt={`imagen de comic ${getTitle(itemInfo)}`} />
+        <StyledImage src={getImagePath(itemInfo)} alt={`Character ${getTitle(itemInfo)}`} />
         <StyledTitle>{getTitle(itemInfo)}</StyledTitle>
       </StyledDiv>
-      <ComicModal itemInfo={itemInfo} isOpen={isModalOpen} onClose={closeModal}/>
+      <CharacterModal itemInfo={itemInfo} isOpen={isModalOpen} onClose={closeModal}/>
     </>
   );
 };
@@ -48,22 +48,14 @@ const ComicCard: React.FC<Props> = (props) => {
 function getImagePath(item:IResult | undefined) {
   const images = getImages(item)
   if(images && images.length > 0){
-    return ImagesUrlCreator.createComicImageUrl(images[0].path, images[0].extension)
+    return ImagesUrlCreator.createItemImageUrl(images[0].path, images[0].extension)
   }
   else{
     return placeholderMarvelImagePath
   }
 }
 function getTitle(item: IResult | undefined) {
-  if(item && item.title){
-    return item.title
-  }
-  else if(item && item.name){
-    return item.name
-  }
-  else{
-    return ''
-  }
+  return item && item.name ? item.name : ''
 }
 function getImages(item: IResult| undefined) {
   if(item && item.images)
@@ -75,4 +67,4 @@ function getImages(item: IResult| undefined) {
   }
   else return
 }
-export default ComicCard;
+export default CharacterCard;

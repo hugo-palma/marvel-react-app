@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import path from "path";
@@ -48,7 +48,7 @@ const ComicCard: React.FC<Props> = (props) => {
 function getImagePath(item:IResult | undefined) {
   const images = getImages(item)
   if(images && images.length > 0){
-    return ImagesUrlCreator.createComicImageUrl(images[0].path, images[0].extension)
+    return ImagesUrlCreator.createItemImageUrl(images[0].path, images[0].extension)
   }
   else{
     return placeholderMarvelImagePath

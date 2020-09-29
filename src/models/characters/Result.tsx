@@ -8,7 +8,7 @@ import { Url } from "./Url";
 
 
 
-export interface Result extends IResult{
+export default interface Result extends IResult{
   id: number;
   name: string;
   description: string;
