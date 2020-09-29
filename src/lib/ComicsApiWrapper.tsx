@@ -11,33 +11,23 @@ class ComicsApiWrapper{
     private filterByTitleParameter = axiosProperties.filterByTitle;
     private filterByIssueNumberParameter = axiosProperties.filterByIssueNumber
     private filterByFormatParameter = axiosProperties.filterByFormat
+    private orderComicsByIssueNumber = axiosProperties.orderComicsByIssueNumber;
     private authKey = `?apikey=${this.publicAPIKey}`
     constructor(){
         // binding this to methods that are going to be passed as callable parameters
         this.getComics=this.getComics.bind(this)
-        this.getComicsWithOffset=this.getComicsWithOffset.bind(this)
         this.getComicsFilteredByTitle=this.getComicsFilteredByTitle.bind(this)
         this.getComicsFilteredByIssueNumber=this.getComicsFilteredByIssueNumber.bind(this)
         this.getComicsFilteredByFormat= this.getComicsFilteredByFormat.bind(this)
     }
     public async getComics(dummy: string, offset?:number){
         try {
-            console.log('vanilla getComics')
-            let endpointUrl = this.comicsRoute + this.authKey
+            let endpointUrl = this.comicsRoute + this.authKey + this.orderComicsByIssueNumber
             endpointUrl = offset? this.getUrlWithSkipParameter(endpointUrl, offset) : endpointUrl
             const response = await axios.get(endpointUrl);
             return response.data as ComicsResponse;
         } catch (error) {
             console.log(`getComics error: ${error}`)
-        }
-    }
-    public async getComicsWithOffset(offset: number) {
-        try {
-            const comicsUrl = this.comicsRoute + this.authKey;
-            const response = await axios.get(this.getUrlWithSkipParameter(comicsUrl, offset));
-            return response.data as ComicsResponse;
-        } catch (error) {
-            console.log(`getComicsWithOffset error: ${error}`)
         }
     }
     public async getComicsFilteredByTitle(keyword: string, offset?:number) {
