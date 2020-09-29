@@ -8,7 +8,7 @@ import { Comics } from "./Comics";
 import IResult from "../IResults";
 
 
-export interface Result extends IResult{
+export default interface Result extends IResult{
     id: number;
     title: string;
     description: string;
