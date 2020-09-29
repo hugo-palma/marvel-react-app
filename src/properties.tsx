@@ -13,6 +13,8 @@ export const axiosProperties = {
     filterByComics: '&comics=',
     filterByStories: '&stories=',
     filterByFormat: '&format=',
+    orderComicsByIssueNumber: '&orderBy=issueNumber',
+    orderCharactersByName: '&orderBy=name',
     routes: {
         base: 'http://gateway.marvel.com/v1/public/',
         comics: '/comics',

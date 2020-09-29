@@ -11,6 +11,7 @@ class CharactersApiWrapper{
     private filterByNameParameter = axiosProperties.filterByName;
     private filterByComicsParameter = axiosProperties.filterByComics;
     private filterByStoriesParameter = axiosProperties.filterByStories;
+    private orderCharactersByName = axiosProperties.orderCharactersByName;
     private authKey = `?apikey=${this.publicAPIKey}`
     constructor(){
         this.getCharacters=this.getCharacters.bind(this)
@@ -20,7 +21,7 @@ class CharactersApiWrapper{
     }
     public async getCharacters(dummy: string, offset?:number){
         try {
-            let endpointUrl = this.charactersRoute + this.authKey
+            let endpointUrl = this.charactersRoute + this.authKey + this.orderCharactersByName
             endpointUrl = offset? this.getUrlWithSkipParameter(endpointUrl, offset) : endpointUrl
             const response = await axios.get(endpointUrl);
             return response.data as CharactersResponse;

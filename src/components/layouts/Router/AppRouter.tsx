@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import comics from "src/pages/comics";
-import characters from "src/pages/characters"
-import stories from "src/pages/stories"
+import Comics from "src/pages/comics";
+import Characters from "src/pages/characters"
+import Stories from "src/pages/stories"
 import Layout from "src/components/layouts//Layout";
 import Header from "src/components/layouts/components/Header";
+import Landing from 'src/pages/landing'
 interface Props {}
 
 const AppRouter: React.FC<Props> = (props) => {
@@ -14,9 +15,10 @@ const AppRouter: React.FC<Props> = (props) => {
       <Router>
         <Header />
         <Switch>
-          <Route path="/comics" component={comics} />
-          <Route path="/characters" component={characters}/>
-          <Route path='/stories' component={stories}/>
+          <Route path="/comics" component={Comics} />
+          <Route path="/characters" component={Characters}/>
+          <Route path='/stories' component={Stories}/>
+          <Route path="/" component={Landing}/>
         </Switch> 
       </Router>
     </Layout>

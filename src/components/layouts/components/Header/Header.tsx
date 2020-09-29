@@ -65,9 +65,6 @@ const Header: React.FC<Props> = () => {
             <StyledNavigationLink activeClassName="active" to="/characters">
               <StyledH1>Characters</StyledH1>
             </StyledNavigationLink>
-            <StyledNavigationLink activeClassName="active" to="/about">
-              <StyledH1>About</StyledH1>
-            </StyledNavigationLink>
           </Navigation>
         </HeaderContent>
       </HeaderLayout>
