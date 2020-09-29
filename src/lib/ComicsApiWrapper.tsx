@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { axiosProperties } from '../properties'
 import ComicsResponse  from '../models/comics/ComicsResponse'
-
+import CharactersResponse from 'src/models/characters/CharactersResponse';
 
 class ComicsApiWrapper{
     private publicAPIKey = axiosProperties.apiKey;
@@ -28,7 +28,6 @@ class ComicsApiWrapper{
             console.log(`getComics error: ${error}`)
         }
     }
-
     public async getComicsWithOffset(offset: number) {
         try {
             const comicsUrl = this.comicsRoute + this.authKey;
@@ -60,6 +59,11 @@ class ComicsApiWrapper{
         catch(error){
             console.log(`getComicsFilteredByIssueNumber error: ${error}`)
         }
+    }
+    public async getComicCharacters(comicId: number) {
+        const comicCharactersUrl = this.comicsRoute + '/' + comicId + '/characters' + this.authKey;
+        const response = await axios.get(comicCharactersUrl)
+        return response.data as CharactersResponse
     }
     private getUrlWithSkipParameter(url: string, skipAmount: number) {
         return url + this.skipParameter + skipAmount
