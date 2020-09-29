@@ -13,7 +13,6 @@ const RowItem = React.memo(function RowItem(props: Props) {
   //TODO: improve factory entry param
   const cardFactory = new ElementCardFactory();
   const location = useLocation();
-  console.log(`el lugar es:${location.pathname}`);
   const ItemCard = cardFactory.getElementCard(location.pathname) as React.FC<{
   result: IResult;
   style: any;}>

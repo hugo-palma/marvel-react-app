@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import path from "path";
 import { CSSProperties } from "styled-components";
 import ReactDom from "react-dom";
 
 import Result from "src/models/stories/Result";
 import IResult from "src/models/IResults";
-import { ImagesUrlCreator } from "src/lib/ComicImageUrlCreator";
-import { placeholderMarvelImage } from "src/images/index";
-
-const placeholderMarvelImagePath = path.resolve(placeholderMarvelImage);
-
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -46,9 +40,6 @@ const StyledTitle = styled.h1`
 `;
 const ContentContainer = styled.div`
   ${tw`flex flex-row mx-12`};
-`;
-const StyledModalImage = styled.img`
-  ${tw`w-modal-image h-modal-image`};
 `;
 const DetailsContainer = styled.div`
   ${tw`ml-12`};
@@ -128,25 +119,6 @@ function getTitle(item: IResult | undefined) {
     return item.name;
   } else {
     return "";
-  }
-}
-function getImages(item: IResult | undefined) {
-  if (item && item.images) {
-    return item.images;
-  } else if (item && item.thumbnail) {
-    return [item.thumbnail];
-  } else return;
-}
-
-function getModalImagePath(item: IResult | undefined) {
-  const images = getImages(item);
-  if (images && images.length > 0) {
-    return ImagesUrlCreator.createModalImageUrl(
-      images[0].path,
-      images[0].extension
-    );
-  } else {
-    return placeholderMarvelImagePath;
   }
 }
 export default StoryModal;

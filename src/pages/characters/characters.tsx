@@ -16,8 +16,6 @@ export const CharactersContext = React.createContext({} as IScrollable | undefin
 interface Props {}
 const CharactersPage: React.FC<Props> = (props) => {
   //states needed for infinite loading
-  //TODO: OBTAIN 20 TO CONFIG FILE
-  const [hasNextPage, setHasNextPage] = useState(true);
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const [charactersResponse, setCharactersResponse] = useState<CharactersResponse>();
   const [filterOption, setFilterOption] = useState("");

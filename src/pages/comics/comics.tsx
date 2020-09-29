@@ -16,8 +16,6 @@ export const ComicsContext = React.createContext({} as IScrollable | undefined);
 interface Props {}
 const ComicsPage: React.FC<Props> = (props) => {
   //states needed for infinite loading
-  //TODO: OBTAIN 20 TO CONFIG FILE
-  const [hasNextPage, setHasNextPage] = useState(true);
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const [comicsResponse, setComicsResponse] = useState<ComicsResponse>();
   const [filterOption, setFilterOption] = useState("");
@@ -41,6 +39,8 @@ const ComicsPage: React.FC<Props> = (props) => {
         return apiWrapper.getComicsFilteredByTitle;
       case "issue":
         return apiWrapper.getComicsFilteredByIssueNumber;
+      case "format":
+        return apiWrapper.getComicsFilteredByFormat;
       default:
         return apiWrapper.getComics;
     }
@@ -100,6 +100,7 @@ const ComicsPage: React.FC<Props> = (props) => {
   return (
     <ComicsContext.Provider value={comicsResponse}>
         <ComicsFilterControl
+          filterOption={filterOption}
           setFilterOption={setFilterOption}
           setFilterValue={setFilterValue}
         />

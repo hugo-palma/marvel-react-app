@@ -15,19 +15,11 @@ export const StoriesContext = React.createContext({} as IScrollable | undefined)
 interface Props {}
 const StoriesPage: React.FC<Props> = (props) => {
   //states needed for infinite loading
-  //TODO: OBTAIN 20 TO CONFIG FILE
-  const [hasNextPage, setHasNextPage] = useState(true);
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const [storiesResponse, setStoriesResponse] = useState<StoriesResponse>();
-  const [filterOption, setFilterOption] = useState("");
-  const [filterValue, setFilterValue] = useState("");
   const [resetPage, setResetPage] = useState(false);
   const apiWrapper = new StoriesApiWrapper();
 
-  useEffect(() => {
-    console.log(`cambios en filtros ${filterOption}, ${filterValue}`)
-    handleFilter(filterOption, filterValue)
-  }, [filterOption, filterValue]);
   useEffect(() => {
     loadNextPage()
     setResetPage(false)
@@ -40,7 +32,7 @@ const StoriesPage: React.FC<Props> = (props) => {
     setIsNextPageLoading(true);
     const chosenApiCall = apiWrapper.getStories
     if (!storiesResponse || (storiesResponse.data.results === undefined)){
-      chosenApiCall(filterValue).then((response) => {
+      chosenApiCall('').then((response) => {
         if (response && setStoriesResponse) {
           console.log(response)
           setStoriesResponse(response);
@@ -50,7 +42,7 @@ const StoriesPage: React.FC<Props> = (props) => {
         setIsNextPageLoading(false);
       });
     } else if(storiesResponse && storiesResponse.data && storiesResponse.data.results.length > 0) {
-      chosenApiCall(filterValue, storiesResponse.data.results.length).then((response) => {
+      chosenApiCall('', storiesResponse.data.results.length).then((response) => {
         if (response && storiesResponse && setStoriesResponse) {
           const newResults = response.data.results;
           const mergedStories = storiesResponse.data.results.concat(newResults);
@@ -64,20 +56,6 @@ const StoriesPage: React.FC<Props> = (props) => {
     else{
       console.log('check else in loading more')
       setIsNextPageLoading(false)
-    }
-  };
-  const handleFilter = (filterOption: string, filterValue: string) => {
-    console.log(`handleFilter?${filterValue.length}, ${filterOption}`)
-    if (filterValue.length > 0 && filterOption !== '') {
-      setStoriesResponse({
-        attributionHTML:'',
-        attributionText:'',
-        code: 0,
-        copyright:'',
-        data: {} as Data,
-        etag: '',
-        status:''})
-      setResetPage(true);
     }
   };
   return (
