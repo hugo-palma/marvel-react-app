@@ -64,7 +64,7 @@ const StyledDescription = styled.h3`
 `;
 
 const portalDiv = document.getElementById("portal");
-const ComicModal: React.FC<Props> = (props) => {
+const ComicInfoModal: React.FC<Props> = (props) => {
   const [isOpen, setIsOpen] = useState(props.isOpen);
   const [itemInfo, setItemInfo] = useState(props.itemInfo);
   let comicInfo = { ...itemInfo } as Result;
@@ -146,4 +146,4 @@ function getModalImagePath(item: IResult | undefined) {
     return placeholderMarvelImagePath;
   }
 }
-export default ComicModal;
+export default ComicInfoModal;

@@ -26,33 +26,33 @@ const ComicsPage: React.FC<Props> = (props) => {
   const apiWrapper = new ComicsApiWrapper();
 
   useEffect(() => {
-    console.log(`cambios en filtros ${filterOption}, ${filterValue}`)
-    handleFilter(filterOption, filterValue)
+    console.log(`cambios en filtros ${filterOption}, ${filterValue}`);
+    handleFilter(filterOption, filterValue);
   }, [filterOption, filterValue]);
   useEffect(() => {
-    loadNextPage()
-    setResetPage(false)
-  }, [resetPage])
-  const handleApiCall = (filterOption: string, filterValue:string) => {
-    switch(filterOption){
-      case '' || 'none':
-        return apiWrapper.getComics
-      case 'title':
-        return apiWrapper.getComicsFilteredByTitle
-      case 'issue':
-        return apiWrapper.getComicsFilteredByIssueNumber
+    loadNextPage();
+    setResetPage(false);
+  }, [resetPage]);
+  const handleApiCall = (filterOption: string, filterValue: string) => {
+    switch (filterOption) {
+      case "" || "none":
+        return apiWrapper.getComics;
+      case "title":
+        return apiWrapper.getComicsFilteredByTitle;
+      case "issue":
+        return apiWrapper.getComicsFilteredByIssueNumber;
       default:
-        return apiWrapper.getComics
+        return apiWrapper.getComics;
     }
-  }
+  };
 
   const loadNextPage = (...args: any) => {
     if (isNextPageLoading) {
       return;
     }
     setIsNextPageLoading(true);
-    const chosenApiCall = handleApiCall(filterOption, filterValue)
-    if (!comicsResponse || (comicsResponse.data.results === undefined)){
+    const chosenApiCall = handleApiCall(filterOption, filterValue);
+    if (!comicsResponse || comicsResponse.data.results === undefined) {
       chosenApiCall(filterValue).then((response) => {
         if (response && setComicsResponse) {
           setComicsResponse(response);
@@ -61,46 +61,55 @@ const ComicsPage: React.FC<Props> = (props) => {
         }
         setIsNextPageLoading(false);
       });
-    } else if(comicsResponse && comicsResponse.data && comicsResponse.data.results.length > 0) {
-      chosenApiCall(filterValue, comicsResponse.data.results.length).then((response) => {
-        if (response && comicsResponse && setComicsResponse) {
-          const newResults = response.data.results;
-          const mergedComics = comicsResponse.data.results.concat(newResults);
-          response.data.results = mergedComics;
-          setComicsResponse(response);
+    } else if (
+      comicsResponse &&
+      comicsResponse.data &&
+      comicsResponse.data.results.length > 0
+    ) {
+      chosenApiCall(filterValue, comicsResponse.data.results.length).then(
+        (response) => {
+          if (response && comicsResponse && setComicsResponse) {
+            const newResults = response.data.results;
+            const mergedComics = comicsResponse.data.results.concat(newResults);
+            response.data.results = mergedComics;
+            setComicsResponse(response);
+          }
+          setIsNextPageLoading(false);
         }
-        setIsNextPageLoading(false);
-      });
-     
-    }
-    else{
-      console.log('check else in loading more')
-      setIsNextPageLoading(false)
+      );
+    } else {
+      console.log("check else in loading more");
+      setIsNextPageLoading(false);
     }
   };
   const handleFilter = (filterOption: string, filterValue: string) => {
-    console.log(`handleFilter?${filterValue.length}, ${filterOption}`)
-    if (filterValue.length > 0 && filterOption !== '') {
+    console.log(`handleFilter?${filterValue.length}, ${filterOption}`);
+    if (filterValue.length > 0 && filterOption !== "") {
       setComicsResponse({
-        attributionHTML:'',
-        attributionText:'',
+        attributionHTML: "",
+        attributionText: "",
         code: 0,
-        copyright:'',
+        copyright: "",
         data: {} as Data,
-        etag: '',
-        status:''})
+        etag: "",
+        status: "",
+      });
       setResetPage(true);
     }
   };
   return (
     <ComicsContext.Provider value={comicsResponse}>
-      <ComicsFilterControl
-        setFilterOption={setFilterOption}
-        setFilterValue={setFilterValue}
-      />
-      <StyledDiv>
-        <ScrollableWindow responseContext={ComicsContext} hasNextPage loadMoreItems={loadNextPage} />
-      </StyledDiv>
+        <ComicsFilterControl
+          setFilterOption={setFilterOption}
+          setFilterValue={setFilterValue}
+        />
+        <StyledDiv>
+          <ScrollableWindow
+            responseContext={ComicsContext}
+            hasNextPage
+            loadMoreItems={loadNextPage}
+          />
+        </StyledDiv>
     </ComicsContext.Provider>
   );
 };
