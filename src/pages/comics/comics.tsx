@@ -6,7 +6,7 @@ import ComicsApiWrapper from "src/lib/ComicsApiWrapper";
 import ComicsResponse from "src/models/comics/ComicsResponse";
 import ScrollableWindow from "src/components/layouts/ScrollableWindow/ScrollableWindow";
 import IScrollable from "src/models/IScrollable";
-import ComicsFilterControl from "src/components/layouts/FilterControl/ComicsFilterControl";
+import ComicsFilterControl from "src/components/layouts/Comics/components/ComicsFilterControl";
 import Data from "src/models/comics/Data";
 
 const StyledDiv = styled.div`

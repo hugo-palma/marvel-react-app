@@ -6,7 +6,9 @@ import CharactersApiWrapper from "src/lib/CharacterApiWrapper";
 import CharactersResponse from "src/models/characters/CharactersResponse";
 import ScrollableWindow from "src/components/layouts/ScrollableWindow/ScrollableWindow";
 import IScrollable from "src/models/IScrollable";
-import CharactersFilterControl from "src/components/layouts/FilterControl/CharactersFilterControl";
+import ISelectOption from "src/models/ISelectOption"
+import SelectOptionHandler from "src/lib/SelectOptionHandler";
+import CharactersFilterControl from "src/components/layouts/Characters/components/CharactersFilterControl";
 import Data from "src/models/characters/Data";
 
 const StyledDiv = styled.div`
@@ -18,14 +20,14 @@ const CharactersPage: React.FC<Props> = (props) => {
   //states needed for infinite loading
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const [charactersResponse, setCharactersResponse] = useState<CharactersResponse>();
-  const [filterOption, setFilterOption] = useState("");
-  const [filterValue, setFilterValue] = useState("");
+  const [filterOption, setFilterOption] = useState({} as ISelectOption);
+  const [filterValue, setFilterValue] = useState({} as ISelectOption);
   const [resetPage, setResetPage] = useState(false);
   const apiWrapper = new CharactersApiWrapper();
 
   useEffect(() => {
     console.log(`cambios en filtros ${filterOption}, ${filterValue}`)
-    handleFilter(filterOption, filterValue)
+    handleFilter(SelectOptionHandler.getSelectedOptionValue(filterOption), SelectOptionHandler.getSelectedOptionValue(filterValue))
   }, [filterOption, filterValue]);
   useEffect(() => {
     loadNextPage()
@@ -52,9 +54,9 @@ const CharactersPage: React.FC<Props> = (props) => {
       return;
     }
     setIsNextPageLoading(true);
-    const chosenApiCall = handleApiCall(filterOption, filterValue)
+    const chosenApiCall = handleApiCall(SelectOptionHandler.getSelectedOptionValue(filterOption), SelectOptionHandler.getSelectedOptionValue(filterValue))
     if (!charactersResponse || (charactersResponse.data.results === undefined)){
-      chosenApiCall(filterValue).then((response) => {
+      chosenApiCall(SelectOptionHandler.getSelectedOptionValue(filterValue)).then((response) => {
         if (response && setCharactersResponse) {
           console.log(response)
           setCharactersResponse(response);
@@ -64,7 +66,7 @@ const CharactersPage: React.FC<Props> = (props) => {
         setIsNextPageLoading(false);
       });
     } else if(charactersResponse && charactersResponse.data && charactersResponse.data.results.length > 0) {
-      chosenApiCall(filterValue, charactersResponse.data.results.length).then((response) => {
+      chosenApiCall(SelectOptionHandler.getSelectedOptionValue(filterValue), charactersResponse.data.results.length).then((response) => {
         if (response && charactersResponse && setCharactersResponse) {
           const newResults = response.data.results;
           const mergedCharacters = charactersResponse.data.results.concat(newResults);
@@ -73,7 +75,7 @@ const CharactersPage: React.FC<Props> = (props) => {
         }
         setIsNextPageLoading(false);
       });
-     
+
     }
     else{
       console.log('check else in loading more')
@@ -81,8 +83,8 @@ const CharactersPage: React.FC<Props> = (props) => {
     }
   };
   const handleFilter = (filterOption: string, filterValue: string) => {
-    console.log(`handleFilter?${filterValue.length}, ${filterOption}`)
-    if (filterValue.length > 0 && filterOption !== '') {
+    if (filterValue && filterValue.length > 0 && filterOption !== '') {
+      console.log(`handleFilter?${filterValue.length}, ${filterOption}`)
       setCharactersResponse({
         attributionHTML:'',
         attributionText:'',
@@ -97,6 +99,7 @@ const CharactersPage: React.FC<Props> = (props) => {
   return (
     <CharactersContext.Provider value={charactersResponse}>
       <CharactersFilterControl
+        filterOption={filterOption}
         setFilterOption={setFilterOption}
         setFilterValue={setFilterValue}
       />

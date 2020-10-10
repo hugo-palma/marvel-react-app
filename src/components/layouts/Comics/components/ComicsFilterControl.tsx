@@ -9,7 +9,7 @@ interface Props {
   setFilterValue: React.Dispatch<React.SetStateAction<string>>
 }
 const Container = styled.div`
-  ${tw`flex flex-row  ml-16`};
+  ${tw`flex flex-row ml-16`};
 `;
 const StyledDiv = styled.div`
   ${tw`inline items-start w-64`};
