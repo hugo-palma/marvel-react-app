@@ -31,7 +31,7 @@ const ComicsPage: React.FC<Props> = (props) => {
     loadNextPage();
     setResetPage(false);
   }, [resetPage]);
-  const handleApiCall = (filterOption: string, filterValue: string) => {
+  const handleApiCall = (filterOption: string) => {
     switch (filterOption) {
       case "" || "none":
         return apiWrapper.getComics;
@@ -51,7 +51,7 @@ const ComicsPage: React.FC<Props> = (props) => {
       return;
     }
     setIsNextPageLoading(true);
-    const chosenApiCall = handleApiCall(filterOption, filterValue);
+    const chosenApiCall = handleApiCall(filterOption);
     if (!comicsResponse || comicsResponse.data.results === undefined) {
       chosenApiCall(filterValue).then((response) => {
         if (response && setComicsResponse) {
@@ -70,8 +70,7 @@ const ComicsPage: React.FC<Props> = (props) => {
         (response) => {
           if (response && comicsResponse && setComicsResponse) {
             const newResults = response.data.results;
-            const mergedComics = comicsResponse.data.results.concat(newResults);
-            response.data.results = mergedComics;
+            response.data.results = comicsResponse.data.results.concat(newResults);
             setComicsResponse(response);
           }
           setIsNextPageLoading(false);

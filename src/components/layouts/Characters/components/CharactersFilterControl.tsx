@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import Select, {ValueType, ActionMeta, OptionTypeBase, OptionsType} from "react-select";
+import Select, {ValueType} from "react-select";
 import styled from "styled-components";
 import tw from "twin.macro";
 import ISelectOption from "src/models/ISelectOption";
@@ -30,7 +30,7 @@ const CharactersFilterOptions = [
 ];
 const filterValues = [] as Array<ISelectOption>;
 
-const CharactersFilterControl: React.FC<Props> = (props) => {
+const CharactersFilterControl: React.FC<Props> = React.memo(function CharactersFilterControl(props){
     let filterOption = props.filterOption
     useEffect(() => {
       console.log('cambio de opcion de filtro de characters')
@@ -40,10 +40,10 @@ const CharactersFilterControl: React.FC<Props> = (props) => {
     const setFilterValue = props.setFilterValue
     const checkIfFilterChosenOptionIsName = (inputValue: ISelectOption) => {
       //TODO: optimize comparison
-      return inputValue == CharactersFilterOptions[0]
+      return inputValue === CharactersFilterOptions[0]
     }
     const checkIfFilterChosenOptionIsComics = (inputValue: ISelectOption) => {
-      return inputValue == CharactersFilterOptions[1];
+      return inputValue === CharactersFilterOptions[1];
     }
     const handleOptionChange = (value: ValueType<ISelectOption>) => {
       const selectedOption = value as ISelectOption
@@ -55,26 +55,24 @@ const CharactersFilterControl: React.FC<Props> = (props) => {
         setFilterValue(value)
       }
     };
-
     const handleFilterInputChange = (value: string) => {
       if (checkIfFilterChosenOptionIsName(filterOption)) {
-        //clearing filter
-        filterValues.length = 0
-        filterValues.push({value: value, label: value})
+        return [{value: value, label: value}]
       }
     }
     const promiseOptions = async (inputValue: string) => {
       //Obtaining api results
-      if(!checkIfFilterChosenOptionIsComics(filterOption))
-      {
-        return
+      if (checkIfFilterChosenOptionIsComics(filterOption)) {
+        const comicsApiWrapper = new ComicsApiWrapper()
+        const response = await comicsApiWrapper.getComicsFilteredByTitle(inputValue, 0)
+        return SelectOptionHandler.mapApiResponseToSelectOptions(response)
+      } else if (checkIfFilterChosenOptionIsName(filterOption)) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(handleFilterInputChange(inputValue))
+          }, 1)
+        })
       }
-      const comicsApiWrapper = new ComicsApiWrapper()
-      const response = await comicsApiWrapper.getComicsFilteredByTitle(inputValue, 0)
-      return SelectOptionHandler.mapApiResponseToSelectOptions(response)
-    }
-    const getOptions = (inputValue: string) => {
-
     }
     const customTheme = (theme: any) => {
       return {
@@ -93,13 +91,11 @@ const CharactersFilterControl: React.FC<Props> = (props) => {
                   options={CharactersFilterOptions}/>
         </StyledDiv>
         <StyledInputDiv>
-          <AsyncSelect loadOptions={promiseOptions}/>
-          <Select onChange={handleFilterValueChange} onInputChange={handleFilterInputChange} theme={customTheme}
-                  options={filterValues} isSearchable/>
+          <AsyncSelect loadOptions={promiseOptions} onChange={handleFilterValueChange} theme={customTheme}/>
         </StyledInputDiv>
       </Container>
     );
-  }
+  })
 ;
 
 export default CharactersFilterControl;

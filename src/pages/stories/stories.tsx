@@ -6,7 +6,6 @@ import StoriesApiWrapper from "src/lib/StoriesApiWrapper";
 import StoriesResponse from "src/models/stories/StoriesResponse";
 import ScrollableWindow from "src/components/layouts/ScrollableWindow/ScrollableWindow";
 import IScrollable from "src/models/IScrollable";
-import Data from "src/models/stories/Data";
 
 const StyledDiv = styled.div`
   ${tw`flex flex-col`}
@@ -45,13 +44,12 @@ const StoriesPage: React.FC<Props> = (props) => {
       chosenApiCall('', storiesResponse.data.results.length).then((response) => {
         if (response && storiesResponse && setStoriesResponse) {
           const newResults = response.data.results;
-          const mergedStories = storiesResponse.data.results.concat(newResults);
-          response.data.results = mergedStories;
+          response.data.results = storiesResponse.data.results.concat(newResults);
           setStoriesResponse(response);
         }
         setIsNextPageLoading(false);
       });
-     
+
     }
     else{
       console.log('check else in loading more')

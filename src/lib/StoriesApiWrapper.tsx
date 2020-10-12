@@ -11,6 +11,7 @@ class StoriesApiWrapper{
     private authKey = `?apikey=${this.publicAPIKey}`
     constructor(){
         this.getStories=this.getStories.bind(this)
+        this.getStoriesByName=this.getStoriesByName.bind(this)
     }
     public async getStories(dummy: string, offset?:number){
         try {
@@ -22,9 +23,20 @@ class StoriesApiWrapper{
             console.log(`getStories error: ${error}`)
         }
     }
+    public async getStoriesByName(name: string, offset?:number) {
+        try {
+            let endpointUrl = this.storiesRoute + this.authKey + `&name=${name}`
+            endpointUrl = offset? this.getUrlWithSkipParameter(endpointUrl, offset) : endpointUrl
+            const response = await axios.get(endpointUrl);
+            return response.data as StoriesResponse;
+        } catch (error) {
+            console.log(`getStories error: ${error}`)
+        }
+    }
     private getUrlWithSkipParameter(url: string, skipAmount: number) {
         return url + this.skipParameter + skipAmount
     }
+
 }
 
 export default StoriesApiWrapper
